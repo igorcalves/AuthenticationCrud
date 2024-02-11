@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.authenticationWithCrud.authenticationCrud.infra.securityConfiguration.TokenServie;
 import br.com.authenticationWithCrud.authenticationCrud.model.AuthenticationDTO;
+import br.com.authenticationWithCrud.authenticationCrud.model.LoginResponseDTO;
 import br.com.authenticationWithCrud.authenticationCrud.model.User;
 import br.com.authenticationWithCrud.authenticationCrud.model.UserDTO;
 import br.com.authenticationWithCrud.authenticationCrud.service.UserService;
@@ -19,7 +21,7 @@ import jakarta.validation.Valid;
 
 @RestController()
 @RequestMapping("auth")
-public class AuthorizationController {
+public class AuthenticationController {
 	
 	
 	@Autowired
@@ -27,6 +29,9 @@ public class AuthorizationController {
 	
 	@Autowired
 	UserService service;
+
+	@Autowired
+    TokenServie tokenService;
 	
 	 @PostMapping("/login")
 		public ResponseEntity<?> login(@RequestBody @Valid AuthenticationDTO data){
@@ -34,8 +39,8 @@ public class AuthorizationController {
 
 			var auth = authenticationManager.authenticate(userNamePassword);
 			
-			
-			return ResponseEntity.ok().body("done");
+			var token = tokenService.generatedToken((User) auth.getPrincipal());
+			return ResponseEntity.ok(new LoginResponseDTO(token));
 			
 		}		
 	 

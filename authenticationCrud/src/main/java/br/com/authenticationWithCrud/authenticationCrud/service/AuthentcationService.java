@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.authenticationWithCrud.authenticationCrud.repository.UserRepository;
 
 @Service
-public class AuthorizationService implements UserDetailsService{
+public class AuthentcationService implements UserDetailsService{
 	
 	@Autowired
 	UserRepository repository;
