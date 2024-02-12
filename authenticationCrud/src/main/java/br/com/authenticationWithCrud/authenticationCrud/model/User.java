@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -43,13 +44,16 @@ public class User implements UserDetails{
     private String password;
     private LocalDateTime timestamp;
     private UserRole role;
+	@Column(nullable = false)
+	private String secretQuestion;
     
-    public User(String login, String password,UserRole role,String name, String address,LocalDateTime timestamp){
+    public User(String login, String password,UserRole role,String name, String address,String secretQuestion,LocalDateTime timestamp){
         this.login = login;
         this.password = password;
         this.role = role;
         this.name = name;
         this.address = address;
+		this.secretQuestion = secretQuestion;
         this.timestamp = timestamp;
     }
 

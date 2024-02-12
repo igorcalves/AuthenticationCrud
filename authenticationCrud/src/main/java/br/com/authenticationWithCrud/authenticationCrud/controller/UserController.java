@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,7 @@ import br.com.authenticationWithCrud.authenticationCrud.model.LoginDTO;
 import br.com.authenticationWithCrud.authenticationCrud.model.User;
 import br.com.authenticationWithCrud.authenticationCrud.model.UserDTO;
 import br.com.authenticationWithCrud.authenticationCrud.model.UserDTODataBase;
+import br.com.authenticationWithCrud.authenticationCrud.model.UserUpdateDTO;
 import br.com.authenticationWithCrud.authenticationCrud.service.UserService;
 import jakarta.validation.Valid;
 
@@ -40,13 +42,14 @@ public class UserController {
 
 
     @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody @Valid UserDTO data){
-        User user = service.updateUser(data);
+    public ResponseEntity<?> updateUser(@RequestBody @Valid UserUpdateDTO data, @RequestHeader("Authorization") String token){
+        String message = "";
+        User user = service.updateUser(data, token);
 
         if(user != null){
             return ResponseEntity.ok().body("User has been updted");
         }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Login not Found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
         }
     }
 

@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import br.com.authenticationWithCrud.authenticationCrud.model.AuthenticationDTO;
 import br.com.authenticationWithCrud.authenticationCrud.model.LoginResponseDTO;
 import br.com.authenticationWithCrud.authenticationCrud.model.User;
 import br.com.authenticationWithCrud.authenticationCrud.model.UserDTO;
+import br.com.authenticationWithCrud.authenticationCrud.model.changepasswordDTO;
 import br.com.authenticationWithCrud.authenticationCrud.service.UserService;
 import jakarta.validation.Valid;
 
@@ -53,6 +56,17 @@ public class AuthenticationController {
 	            return ResponseEntity.status(HttpStatus.CREATED).body(user);
 	        }
 	    }
+
+		@PutMapping("/changepassword")
+		public ResponseEntity<?> recoverPassword(@RequestBody changepasswordDTO data){
+			if(service.changePassword(data)){
+				return ResponseEntity.ok().body("password has been updated");
+			}else{
+				return ResponseEntity.ok().body("Username: " + data.login() + " not found or wrong secret");
+			}
+
+
+		}
 
 
 }
