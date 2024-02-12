@@ -55,7 +55,8 @@ public class UserService {
                 User user = repository.findUserByLogin(data.getLogin());
                 user.setPassword(data.getPassword());
                 user.setName(data.getName());
-                user.setRole(data.getRole());
+                if(data.getRole() != null) user.setRole(data.getRole());
+                if(data.getSecretQuestion() != null) user.setSecretQuestion(data.getSecretQuestion());
                 user.setAddress(data.getAddress());
                 repository.save(user);
                 return user;
@@ -63,6 +64,7 @@ public class UserService {
                 if(recoverUser.getLogin().equals(data.getLogin())){
                     User user = repository.findUserByLogin(data.getLogin());
                     user.setPassword(data.getPassword());
+                    if(data.getSecretQuestion() != null) user.setSecretQuestion(data.getSecretQuestion());
                     user.setName(data.getName());
                     user.setAddress(data.getAddress());
                     repository.save(user);
